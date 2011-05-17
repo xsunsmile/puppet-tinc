@@ -1,4 +1,3 @@
 #!/bin/sh
 
-brctl delif <%= real_tinc_bridge_interface %> $INTERFACE
-
+ifconfig $INTERFACE down

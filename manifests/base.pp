@@ -15,8 +15,9 @@ class tinc::base {
     ensure => present,
     require => Package['tinc'],
     before => Service['tinc'],
-    owner => root, group => 0, mode => 0600;
+    owner => root, group => root, mode => 0660;
   }
+
 }
 
 

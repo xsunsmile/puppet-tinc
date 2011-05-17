@@ -2,8 +2,8 @@ Name = <%= fqdn_tinc %>
 AddressFamily = ipv4
 Device = /dev/net/tun
 #PMTU = 1440
-Mode = switch
-#Mode = router
+# Mode = switch
+Mode = router
 
 BindToInterface = <%= tinc_interface.to_s %>
 
