@@ -1,14 +1,23 @@
 # manifests/init.pp - module to manage tinc-vpn
 
 class tinc {
-  include bridge-utils
+	include bridge-utils
 
-  case $operatingsystem {
-    centos: { include tinc::centos }
-    default: { include tinc::base }
-  }
+	case $operatingsystem {
+		centos: { include tinc::centos }
+		default: { include tinc::base }
+	}
 
-  if $use_shorewall {
-    include shorewall::rules::tinc
-  }
+	if $use_shorewall {
+		include shorewall::rules::tinc
+	}
+
+	$mongodb_host = extlookup('mongodb_host')
+
+	cron { 'download-tinc-hosts':
+		command => "/usr/bin/mongo_get ${mongodb_host} /etc/tinc",
+		user => root,
+		minute => 1,
+	}
+
 }
