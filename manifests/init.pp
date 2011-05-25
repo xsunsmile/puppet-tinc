@@ -15,9 +15,10 @@ class tinc {
 	$mongodb_host = extlookup('mongodb_host')
 
 	cron { 'download-tinc-hosts':
+		ensure => present,
 		command => "/usr/bin/mongo_get ${mongodb_host} /etc/tinc",
 		user => root,
-		minute => 1,
+		minute => '*/1',
 	}
 
 }
