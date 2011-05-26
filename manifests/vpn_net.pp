@@ -50,6 +50,10 @@ define tinc::vpn_net(
     owner => root, group => puppet, mode => 0660;
   }
 
+  inters::functions::mongofile_put { "/etc/tinc/${name}/hosts/${fqdn_tinc}":
+    require => File["/etc/tinc/${name}/hosts/${fqdn_tinc}"],
+  }
+
   line{ "${fqdn_tinc}_for_${name}":
     ensure => $ensure,
     file => $real_hosts_path,
