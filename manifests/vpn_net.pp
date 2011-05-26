@@ -13,7 +13,6 @@ define tinc::vpn_net(
   $shorewall_zone = 'absent'
 ){
   include ::tinc
-  include tinc::inters
 
   # needed in template tinc.conf.erb
   $fqdn_tinc = regsubst("${fqdn}",'[._-]+','','G')
