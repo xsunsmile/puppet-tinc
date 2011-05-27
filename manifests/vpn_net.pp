@@ -53,7 +53,7 @@ define tinc::vpn_net(
     require => File["/etc/tinc/${name}/hosts/${fqdn_tinc}"],
   }
 
-  line{ "${fqdn_tinc}_for_${name}":
+  @line{ "${fqdn_tinc}_for_${name}":
     ensure => $ensure,
     file => $real_hosts_path,
     line => $fqdn_tinc,
