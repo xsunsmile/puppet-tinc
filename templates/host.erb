@@ -2,5 +2,5 @@ Address = <%= scope.lookupvar("ipaddress_#{tinc_interface}") %>
 Port = <%= port %>
 Compression = <%= compression %> # 0=no,11=best lzo
 #
-
+Subnet = <%= vpn_subnet_ip %>/<%= vpn_subnet_mask %>
 <%= tinc_keys[1] %>

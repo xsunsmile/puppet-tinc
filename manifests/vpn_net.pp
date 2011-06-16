@@ -8,6 +8,8 @@ define tinc::vpn_net(
   $tinc_internal_interface = 'eth1',
   $tinc_internal_ip = 'absent',
   $tinc_bridge_interface = 'absent',
+  $vpn_subnet_ip,
+  $vpn_subnet_mask,
   $port = '655',
   $compression = '9',
   $shorewall_zone = 'absent'
@@ -38,7 +40,7 @@ define tinc::vpn_net(
   }
 
   $real_hosts_path = $hosts_path ? {
-    'absent' => "/etc/tinc/${name}/hosts.list",
+    '' => "/etc/tinc/${name}/hosts.list",
     default => $hosts_path
   }
 
@@ -53,6 +55,11 @@ define tinc::vpn_net(
     require => File["/etc/tinc/${name}/hosts/${fqdn_tinc}"],
   }
 
+  file { "$real_hosts_path":
+    ensure => present,
+    contents => "$fqdn_tinc",
+  }
+
   @line{ "${fqdn_tinc}_for_${name}":
     ensure => $ensure,
     file => $real_hosts_path,
@@ -61,6 +68,7 @@ define tinc::vpn_net(
   }
 
   if $ensure == 'present' {
+
     File["/etc/tinc/${name}"]{
       ensure => directory,
     }
