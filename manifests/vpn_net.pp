@@ -10,6 +10,7 @@ define tinc::vpn_net(
   $tinc_bridge_interface = 'absent',
   $vpn_subnet_ip,
   $vpn_subnet_mask,
+  $vpn_subnet_mask32bits,
   $port = '655',
   $compression = '9',
   $shorewall_zone = 'absent'
@@ -55,11 +56,6 @@ define tinc::vpn_net(
     require => File["/etc/tinc/${name}/hosts/${fqdn_tinc}"],
   }
 
-  file { "$real_hosts_path":
-    ensure => present,
-    contents => "$fqdn_tinc",
-  }
-
   @line{ "${fqdn_tinc}_for_${name}":
     ensure => $ensure,
     file => $real_hosts_path,
@@ -84,8 +80,9 @@ define tinc::vpn_net(
       owner => root, group => 0, mode => 0600;
     }
 
-    $tinc_hosts_list = tfile($real_hosts_path)
-    $tinc_all_hosts = split($tinc_hosts_list,"\n")
+    # $tinc_hosts_list = tfile($real_hosts_path)
+    # $tinc_all_hosts = split($tinc_hosts_list,"\n")
+    $tinc_all_hosts = [extlookup('tinc_vpn_master')]
     $tinc_hosts = array_del($tinc_all_hosts,$fqdn_tinc)
 
     file { "/etc/tinc/${name}/tinc.conf":
