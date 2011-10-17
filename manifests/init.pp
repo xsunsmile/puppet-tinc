@@ -16,7 +16,7 @@ class tinc {
 
 	cron { 'download-tinc-hosts':
 		ensure => present,
-		command => "/usr/bin/mongo_get ${mongodb_host} /etc/tinc",
+		command => "/usr/bin/mongo_get ${mongodb_host} /etc/tinc || true",
 		user => root,
 		minute => '*/1',
 	}
